@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/  
+
+  web:
+    env_file:
+      - .env
+    build: .
+    container_name: talenta365
+    restart: always
+    command: gunicorn project.wsgi:application --bind 0.0.0.0:$PORT --log-file - --workers=12
+    # command: python manage.py migrate
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: 8000
+    depends_on:
+      - db
+volumes:
+  postgres_data:
