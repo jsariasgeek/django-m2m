@@ -1,0 +1,5 @@
+---
+services:
+- name: django-m2m
+  dockerfile: "./Dockerfile"
+  port: 8000
